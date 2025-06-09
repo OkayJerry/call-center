@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "The back-end server of our call center.",
+  "homepage": "https://github.com/OkayJerry/call-center#readme",
+  "bugs": {
+    "url": "https://github.com/OkayJerry/call-center/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OkayJerry/call-center.git"
+  },
+  "license": "ISC",
+  "author": "Jerry Hoskins",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node src/index.ts",
+    "prod": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
+    "zod": "^3.25.56"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.30",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
