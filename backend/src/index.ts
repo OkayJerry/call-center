@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import the cors middleware
 import { colors } from './utils/colors';
 
 // Import routers
@@ -15,9 +16,13 @@ const app: Express = express();
 
 // --- Define Routes and Middleware in Correct Order ---
 
-// IMPORTANT: The webhook router must be registered BEFORE the global express.json() parser.
-// This is because the webhook needs the raw request body for signature verification,
-// and express.json() would otherwise parse it and make the raw body unavailable.
+// --- Step 1: Add CORS Middleware ---
+// This will allow your frontend on localhost:3000 to make requests to this backend.
+app.use(cors({
+  origin: 'http://localhost:3000' // Be specific about the origin for security
+}));
+
+// The webhook router must be registered BEFORE the global express.json() parser.
 app.use('/webhook', webhookRouter);
 
 // This global middleware parses JSON for all other routes that come after it.
@@ -32,13 +37,10 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // --- Centralized Error Handler ---
-// With Express 5, this middleware will automatically catch errors
-// from async route handlers without needing any extra packages.
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(`${colors.red}Unhandled Error: ${err.stack}${colors.reset}`);
     res.status(500).json({ error: 'Something went wrong on the server!' });
 });
-
 
 // --- Start the HTTP Server ---
 app.listen(PORT, () => {

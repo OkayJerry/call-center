@@ -34,17 +34,7 @@ export const handleElevenLabsWebhook = async (req: Request, res: Response): Prom
       console.log(`Found mapping: Phone [${agent_number}] ==> Client [${clientId}]`);
       
       const callRecord = {
-        agentId: eventData.data.agent_id,
-        summary: analysis.transcript_summary,
-        transcript: transcript,
-        startTime: admin.firestore.Timestamp.fromMillis(metadata.start_time_unix_secs * 1000),
-        durationSecs: metadata.call_duration_secs,
-        cost: metadata.cost,
-        llmPrice: metadata.charging.llm_price,
-        terminationReason: metadata.termination_reason,
-        callSid: metadata.phone_call.call_sid,
-        streamSid: metadata.phone_call.stream_sid,
-        externalNumber: metadata.phone_call.external_number,
+        ...eventData.data,
         receivedAt: admin.firestore.FieldValue.serverTimestamp()
       };
       
